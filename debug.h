@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 
-//#define DEBUG
+#define DEBUG
 #define DEBUG_BAUD 115200
 
 #ifdef DEBUG

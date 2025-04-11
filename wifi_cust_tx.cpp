@@ -9,15 +9,15 @@
 */
 void wifi_tx_raw_frame(void* frame, size_t length) {
   void *ptr = (void *)**(uint32_t **)(rltk_wlan_info + 0x10);
-  void *frame_control = alloc_mgtxmitframe(ptr + 0xae0);
+  void *frame_control = alloc_mgtxmitframe((uint8_t*)ptr + 0xae0);
 
-  if (frame_control != 0) {
-    update_mgntframe_attrib(ptr, frame_control + 8);
-    memset((void *)*(uint32_t *)(frame_control + 0x80), 0, 0x68);
-    uint8_t *frame_data = (uint8_t *)*(uint32_t *)(frame_control + 0x80) + 0x28;
+  if (frame_control != nullptr) {
+    update_mgntframe_attrib(ptr, (uint8_t*)frame_control + 8);
+    memset((void *)*(uint32_t *)((uint8_t*)frame_control + 0x80), 0, 0x68);
+    uint8_t *frame_data = (uint8_t *)*(uint32_t *)((uint8_t*)frame_control + 0x80) + 0x28;
     memcpy(frame_data, frame, length);
-    *(uint32_t *)(frame_control + 0x14) = length;
-    *(uint32_t *)(frame_control + 0x18) = length;
+    *(uint32_t *)((uint8_t*)frame_control + 0x14) = length;
+    *(uint32_t *)((uint8_t*)frame_control + 0x18) = length;
     dump_mgntframe(ptr, frame_control);
   }
 }
